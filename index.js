@@ -33,13 +33,14 @@ app.post('/api/eval', function (req, res) {
 
     if (!eval) {
         res.status(400).send({
-            message: 'expression is required'
+            result: 'expression is required'
         });
     }
 
     res.send({ 
         result: `${evaluate(eval)}`
-    })
+    })  
+    
 });
 
 app.post('/api/simp', function (req, res) {
