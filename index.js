@@ -21,7 +21,7 @@ app.post('/api/eval', function (req, res) {
     }
 
     res.send({ 
-        result: evaluate(eval)
+        result: `${evaluate(eval)}`
     })
     
 });
