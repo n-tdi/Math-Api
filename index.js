@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const {evaluate} = require('mathjs');
+const {evaluate, simplify} = require('mathjs');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
@@ -25,6 +25,39 @@ app.post('/api/eval', function (req, res) {
     })
     
 });
+
+app.post('/api/eval', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    const { eval } = req.body;
+    console.log(eval);
+
+    if (!eval) {
+        res.status(400).send({
+            message: 'expression is required'
+        });
+    }
+
+    res.send({ 
+        result: `${evaluate(eval)}`
+    })
+});
+
+app.post('/api/simp', function (req, res) {
+    res.setHeader('Content-Type', 'application/json');
+    const { simp } = req.body;
+    console.log(simp);
+
+    if (!simp) {
+        res.status(400).send({
+            message: 'expression to simplify is required'
+        });
+    }
+
+    res.send({ 
+        result: `${simplify(simp)}`
+    })
+});
+
 
 app.listen('3000', function(){
     console.log('Server listening on port 3000');
