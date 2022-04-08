@@ -10,20 +10,27 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.post('/api/eval', function (req, res) {
+app.post('/api/valid', function (req, res) {
     res.setHeader('Content-Type', 'application/json');
     const { eval } = req.body;
+    console.log(eval);
 
     if (!eval) {
         res.status(400).send({
-            message: 'expression is required'
+            result: 'expression is required'
         });
+    } else {
+        try {
+            evaluate(eval);
+            res.status(200).send({
+                result: 'valid'
+            });
+        } catch (e) {
+            res.status(400).send({
+                result: 'Invalid Syntax: ' + e.message
+            });
+        }
     }
-
-    res.send({ 
-        result: `${evaluate(eval)}`
-    })
-    
 });
 
 app.post('/api/eval', function (req, res) {
@@ -35,12 +42,17 @@ app.post('/api/eval', function (req, res) {
         res.status(400).send({
             result: 'expression is required'
         });
+    } else {
+        try {
+            res.send({ 
+                result: `${evaluate(eval)}`
+            }) 
+        } catch (e) {
+            res.status(200).send({
+                result: e.message + ' ' + e.name 
+            });
+        }
     }
-
-    res.send({ 
-        result: `${evaluate(eval)}`
-    })  
-    
 });
 
 app.post('/api/simp', function (req, res) {
