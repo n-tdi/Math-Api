@@ -26,7 +26,7 @@ app.post('/api/valid', function (req, res) {
                 result: 'valid'
             });
         } catch (e) {
-            res.status(400).send({
+            res.status(200).send({
                 result: 'Invalid Syntax: ' + e.message
             });
         }
